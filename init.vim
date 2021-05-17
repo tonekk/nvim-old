@@ -22,6 +22,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'fatih/vim-go'
   Plug 'preservim/nerdtree'
 call plug#end()
+
+" NERDTree
+nnoremap <leader>d :NERDTreeToggle<CR>
  
 " default options
 set completeopt=menu,menuone,noselect " better autocomplete options
