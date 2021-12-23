@@ -1,4 +1,6 @@
 call plug#begin('~/etc/nvim/plugged')
+  Plug 'tpope/vim-rails'
+  Plug 'vim-test/vim-test'
   Plug 'pangloss/vim-javascript'
   Plug 'itchyny/vim-gitbranch'
   Plug 'itchyny/lightline.vim'
@@ -19,9 +21,6 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'preservim/nerdtree'
 call plug#end()
 
-" NERDTree
-nnoremap <C-w>d :NERDTreeToggle<CR>
- 
 " default options
 set completeopt=menu,menuone,noselect " better autocomplete options
 set splitright " splits to the right
@@ -52,6 +51,16 @@ let g:netrw_banner=0 " disable banner in netrw
 let g:netrw_liststyle=3 " tree view in netrw
 let g:markdown_fenced_languages = ['javascript', 'js=javascript', 'json=javascript'] " syntax highlighting in markdown
 nnoremap <leader>v :e $MYVIMRC<CR>
+
+" NERDTree
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+" vim-test
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+if has('nvim')
+  tmap <C-o> <C-\><C-n>
+endif
 
 " lewis6991/gitsigns.nvim
 lua << EOF
