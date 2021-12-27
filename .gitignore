@@ -6,3 +6,4 @@ plugged/
 lsp_servers/
 .netrwhist
 rplugin.vim
+.DS_STORE

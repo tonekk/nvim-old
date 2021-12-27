@@ -5,24 +5,25 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'pangloss/vim-javascript'
   Plug 'vim-test/vim-test'
   Plug 'tpope/vim-commentary'
+  Plug 'windwp/nvim-autopairs'
 
   " Git
   Plug 'lewis6991/gitsigns.nvim'
   Plug 'tpope/vim-fugitive'
+
+  " Moving between files
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'ms-jpq/chadtree'
 
   " Lua stuff
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
 
-  Plug 'folke/tokyonight.nvim'
-  Plug 'preservim/nerdtree'
-
   " Completion
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
   Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-  Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
   autocmd VimEnter * COQnow --shut-up
-
 
   " Lightline
   Plug 'itchyny/vim-gitbranch'
@@ -35,6 +36,9 @@ call plug#begin('~/etc/nvim/plugged')
   " neoterm & maximizer
   Plug 'kassio/neoterm'
   Plug 'szw/vim-maximizer'
+
+  " colorscheme
+  Plug 'folke/tokyonight.nvim'
 call plug#end()
 
 " default options
@@ -62,23 +66,66 @@ set updatetime=300 " time until update
 set undofile " persists undo tree
 filetype plugin indent on " enable detection, plugins and indents
 
-" Color
+" Colors
 colorscheme tokyonight
-
 if (has("termguicolors"))
   set termguicolors " better colors, but makes it very slow!
 endif
 
-let g:markdown_fenced_languages = ['javascript', 'js=javascript', 'json=javascript'] " syntax highlighting in markdown
+" CHADTree
+" still <leader>n because used to from NERDtree
+nnoremap <leader>n :CHADopen<CR>
 
-let g:coq_settings = { "keymap.pre_select" : v:true }
+" UltiSnips
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 
-" NERDTree
-nnoremap <leader>n :NERDTreeToggle<CR>
+" windwp/nvim-autopairs
+lua << EOF
+  local remap = vim.api.nvim_set_keymap
+  local npairs = require('nvim-autopairs')
+
+  npairs.setup({ map_bs = false, map_cr = false })
+
+  vim.g.coq_settings = { keymap = { recommended = false } }
+
+  -- these mappings are coq recommended mappings unrelated to nvim-autopairs
+  remap('i', '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, noremap = true })
+  remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, noremap = true })
+  remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
+  remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
+
+  -- skip it, if you use another global object
+  _G.MUtils= {}
+
+  MUtils.CR = function()
+    if vim.fn.pumvisible() ~= 0 then
+      if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+        return npairs.esc('<c-y>')
+      else
+        return npairs.esc('<c-e>') .. npairs.autopairs_cr()
+      end
+    else
+      return npairs.autopairs_cr()
+    end
+  end
+  remap('i', '<cr>', 'v:lua.MUtils.CR()', { expr = true, noremap = true })
+
+  MUtils.BS = function()
+    if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
+      return npairs.esc('<c-e>') .. npairs.autopairs_bs()
+    else
+      return npairs.autopairs_bs()
+    end
+  end
+  remap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
+EOF
+
 
 " vim-test
 nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
+" Able to move in terminal with ctrl + o
 if has('nvim')
   tmap <C-o> <C-\><C-n>
 endif
