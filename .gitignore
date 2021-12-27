@@ -3,3 +3,6 @@ swap/
 telescope_history
 undo/
 plugged/
+lsp_servers/
+.netrwhist
+rplugin.vim
