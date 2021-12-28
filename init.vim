@@ -22,7 +22,7 @@ call plug#begin('~/etc/nvim/plugged')
   " Completion
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+  Plug 'tonekk/coq_nvim'
   autocmd VimEnter * COQnow --shut-up
 
   " Lightline
@@ -87,15 +87,9 @@ lua << EOF
 
   npairs.setup({ map_bs = false, map_cr = false })
 
+  -- Disable tab key for ultisnips
   vim.g.coq_settings = { keymap = { recommended = false } }
 
-  -- these mappings are coq recommended mappings unrelated to nvim-autopairs
-  remap('i', '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, noremap = true })
-  remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, noremap = true })
-  remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
-  remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
-
-  -- skip it, if you use another global object
   _G.MUtils= {}
 
   MUtils.CR = function()
@@ -110,15 +104,6 @@ lua << EOF
     end
   end
   remap('i', '<cr>', 'v:lua.MUtils.CR()', { expr = true, noremap = true })
-
-  MUtils.BS = function()
-    if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
-      return npairs.esc('<c-e>') .. npairs.autopairs_bs()
-    else
-      return npairs.autopairs_bs()
-    end
-  end
-  remap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
 EOF
 
 
@@ -183,7 +168,6 @@ nnoremap <leader>ff :Telescope find_files<CR>
 " neovim/nvim-lspconfig
 lua require'lspconfig'.tsserver.setup{}
 lua require'lspconfig'.solargraph.setup{}
-
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
@@ -199,7 +183,6 @@ require'nvim-treesitter.configs'.setup {
   indent = { enable = true }
 }
 EOF
-
 set foldmethod=expr
 setlocal foldlevelstart=99
 set foldexpr=nvim_treesitter#foldexpr()
