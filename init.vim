@@ -7,7 +7,6 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'tpope/vim-commentary'
   Plug 'windwp/nvim-autopairs'
 
-  " Git
   Plug 'lewis6991/gitsigns.nvim'
   Plug 'tpope/vim-fugitive'
 
@@ -22,8 +21,11 @@ call plug#begin('~/etc/nvim/plugged')
   " Completion
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  Plug 'tonekk/coq_nvim'
-  autocmd VimEnter * COQnow --shut-up
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
   " Lightline
   Plug 'itchyny/vim-gitbranch'
@@ -47,8 +49,7 @@ nnoremap <leader>v :e $MYVIMRC<CR>
 set completeopt=menu,menuone,noselect " better autocomplete options
 set splitright " splits to the right
 set splitbelow " splits below
-set expandtab " space characters instead of tab
-set tabstop=2 " tab equals 2 spaces
+set expandtab " space characters instead of tab set tabstop=2 " tab equals 2 spaces
 set shiftwidth=2 " indentation
 set number " show absolute line numbers
 set ignorecase " search case insensitive
@@ -175,6 +176,36 @@ nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
+
+
+" nvim-cmp
+lua <<EOF
+local cmp = require'cmp'
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+    end,
+  },
+  mapping = {
+    ['<C-y>'] = cmp.config.disable,
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'ultisnips' },
+    { name = 'buffer' },
+    { name = 'path' },
+  })
+})
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+require'lspconfig'.tsserver.setup { capabilities = capabilities }
+require'lspconfig'.solargraph.setup { capabilities = capabilities }
+EOF
+
 
 " Treesitter
 lua <<EOF
