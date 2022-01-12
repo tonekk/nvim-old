@@ -140,6 +140,9 @@ lua << EOF
   }
 EOF
 
+" fugitive
+nnoremap <leader>g :G<CR>
+
 " itchyny/lightline.vim and itchyny/vim-gitbranch
 let g:lightline = {
       \ 'active': {
