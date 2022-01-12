@@ -5,6 +5,8 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'pangloss/vim-javascript'
   Plug 'vim-test/vim-test'
   Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-repeat'
   Plug 'windwp/nvim-autopairs'
 
   Plug 'lewis6991/gitsigns.nvim'
