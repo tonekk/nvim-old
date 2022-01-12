@@ -41,6 +41,9 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'kassio/neoterm'
   Plug 'szw/vim-maximizer'
 
+  " ALE (for linting)
+  Plug 'dense-analysis/ale'
+
   " colorscheme
   Plug 'folke/tokyonight.nvim'
 call plug#end()
@@ -218,3 +221,10 @@ EOF
 set foldmethod=expr
 setlocal foldlevelstart=99
 set foldexpr=nvim_treesitter#foldexpr()
+
+" ale
+let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
+\   'ruby': ['rubocop']
+\}
+nnoremap <leader>f :ALEFix<CR>
