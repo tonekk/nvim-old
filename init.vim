@@ -14,7 +14,7 @@ call plug#begin('~/etc/nvim/plugged')
 
   " Moving between files
   Plug 'nvim-telescope/telescope.nvim'
-  Plug 'ms-jpq/chadtree'
+  Plug 'preservim/nerdtree'
 
   " Lua stuff
   Plug 'nvim-lua/popup.nvim'
@@ -75,9 +75,8 @@ if (has("termguicolors"))
   set termguicolors " better colors, but makes it very slow!
 endif
 
-" CHADTree
-" still <leader>n because used to from NERDtree
-nnoremap <leader>n :CHADopen<CR>
+" NERDtree
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 " UltiSnips
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
