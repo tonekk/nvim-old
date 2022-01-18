@@ -9,8 +9,10 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'tpope/vim-repeat'
   Plug 'windwp/nvim-autopairs'
 
+  " Git
   Plug 'lewis6991/gitsigns.nvim'
   Plug 'tpope/vim-fugitive'
+  Plug 'junegunn/gv.vim'
 
   " Moving between files
   Plug 'nvim-telescope/telescope.nvim'
