@@ -228,6 +228,8 @@ set foldexpr=nvim_treesitter#foldexpr()
 " ale
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
+\   'css': ['prettier', 'eslint'],
+\   'scss': ['prettier', 'eslint'],
 \   'ruby': ['rubocop']
 \}
 nnoremap <leader>f :ALEFix<CR>
