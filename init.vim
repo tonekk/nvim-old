@@ -233,3 +233,6 @@ let g:ale_fixers = {
 \   'ruby': ['rubocop']
 \}
 nnoremap <leader>f :ALEFix<CR>
+
+" Shortcut to deselect search string
+nnoremap nH :nohlsearch<CR>
