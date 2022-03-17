@@ -7,7 +7,6 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
-  Plug 'windwp/nvim-autopairs'
 
   " Git
   Plug 'lewis6991/gitsigns.nvim'
@@ -23,13 +22,10 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'nvim-lua/plenary.nvim'
 
   " Completion
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
-  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
   " Lightline
   Plug 'itchyny/vim-gitbranch'
@@ -82,37 +78,6 @@ endif
 
 " NERDtree
 nnoremap <leader>n :NERDTreeToggle<CR>
-
-" UltiSnips
-let g:UltiSnipsJumpForwardTrigger="<c-l>"
-let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-
-" windwp/nvim-autopairs
-lua << EOF
-  local remap = vim.api.nvim_set_keymap
-  local npairs = require('nvim-autopairs')
-
-  npairs.setup({ map_bs = false, map_cr = false })
-
-  -- Disable tab key for ultisnips
-  vim.g.coq_settings = { keymap = { recommended = false } }
-
-  _G.MUtils= {}
-
-  MUtils.CR = function()
-    if vim.fn.pumvisible() ~= 0 then
-      if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
-        return npairs.esc('<c-y>')
-      else
-        return npairs.esc('<c-e>') .. npairs.autopairs_cr()
-      end
-    else
-      return npairs.autopairs_cr()
-    end
-  end
-  remap('i', '<cr>', 'v:lua.MUtils.CR()', { expr = true, noremap = true })
-EOF
-
 
 " vim-test
 nmap <silent> <leader>t :TestNearest<CR>
@@ -203,7 +168,6 @@ cmp.setup({
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'ultisnips' },
     { name = 'buffer' },
     { name = 'path' },
   })
