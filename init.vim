@@ -7,6 +7,7 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
+  Plug 'jiangmiao/auto-pairs'
 
   " Git
   Plug 'lewis6991/gitsigns.nvim'
