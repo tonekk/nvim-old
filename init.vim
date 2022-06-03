@@ -7,7 +7,8 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'rorymckinley/vim-symbols-strings'
+  Plug 'amadeus/vim-mjml'
 
   " Git
   Plug 'lewis6991/gitsigns.nvim'
@@ -115,7 +116,7 @@ nnoremap <leader>g :G<CR>
 let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'gitbranch#name'
@@ -165,7 +166,7 @@ cmp.setup({
   },
   mapping = {
     ['<C-y>'] = cmp.config.disable,
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
