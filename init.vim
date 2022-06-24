@@ -10,6 +10,12 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'rorymckinley/vim-symbols-strings'
   Plug 'amadeus/vim-mjml'
 
+  " Cut, Delete, Replace, Yank
+  Plug 'tommcdo/vim-exchange'
+  Plug 'svermeulen/vim-cutlass'
+  Plug 'svermeulen/vim-yoink'
+  Plug 'svermeulen/vim-subversive'
+
   " Git
   Plug 'lewis6991/gitsigns.nvim'
   Plug 'tpope/vim-fugitive'
@@ -46,6 +52,7 @@ call plug#begin('~/etc/nvim/plugged')
 
   " colorscheme
   Plug 'folke/tokyonight.nvim'
+  Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 
 " default options
@@ -73,10 +80,37 @@ set undofile " persists undo tree
 filetype plugin indent on " enable detection, plugins and indents
 
 " Colors
+set t_Co=256
 colorscheme tokyonight
 if (has("termguicolors"))
   set termguicolors " better colors, but makes it very slow!
 endif
+
+" Cut, Delete, Replace, Yank
+"
+" m for cut
+nnoremap m d
+xnoremap m d
+
+nnoremap mm dd
+nnoremap M D
+
+" s for substitute
+nmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
+nmap <leader>s <plug>(SubversiveSubstituteRange)
+xmap <leader>s <plug>(SubversiveSubstituteRange)
+nmap <leader>ss <plug>(SubversiveSubstituteWordRange)
+
+" yank history
+nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+let g:yoinkIncludeDeleteOperations=1
+nmap [y <plug>(YoinkRotateBack)
+nmap ]y <plug>(YoinkRotateForward)
 
 " NERDtree
 nnoremap <leader>n :NERDTreeToggle<CR>
