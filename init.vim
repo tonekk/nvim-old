@@ -12,7 +12,6 @@ call plug#begin('~/etc/nvim/plugged')
 
   " Cut, Delete, Replace, Yank
   Plug 'tommcdo/vim-exchange'
-  Plug 'svermeulen/vim-cutlass'
   Plug 'svermeulen/vim-yoink'
   Plug 'svermeulen/vim-subversive'
 
@@ -88,12 +87,17 @@ endif
 
 " Cut, Delete, Replace, Yank
 "
-" m for cut
-nnoremap m d
-xnoremap m d
+" m for delete w/o overwriting register
+" m = munch
+nnoremap m "_d
+xnoremap m "_d
 
-nnoremap mm dd
-nnoremap M D
+nnoremap mm "_dd
+nnoremap M "_D
+
+" Nobody has ever needed x to overwrite the register...
+nnoremap x "_dl
+xnoremap x "_dl
 
 " s for substitute
 nmap s <plug>(SubversiveSubstitute)
