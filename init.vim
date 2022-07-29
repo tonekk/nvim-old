@@ -50,6 +50,7 @@ call plug#begin('~/etc/nvim/plugged')
 
   " ALE (for linting)
   Plug 'dense-analysis/ale'
+  Plug 'sbdchd/neoformat'
 
   " colorscheme
   Plug 'folke/tokyonight.nvim'
@@ -241,6 +242,13 @@ let g:ale_fixers = {
 \   'ruby': ['rubocop']
 \}
 nnoremap <leader>f :ALEFix<CR>
+
+" neoformat
+let g:neoformat_try_node_exe = 1
+autocmd BufWritePre *.ts Neoformat
+autocmd BufWritePre *.tsx Neoformat
+autocmd BufWritePre *.js Neoformat
+autocmd BufWritePre *.jsx Neoformat
 
 " Shortcut to deselect search string
 nnoremap nH :nohlsearch<CR>
