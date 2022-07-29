@@ -33,6 +33,8 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
 
   " Lightline
   Plug 'itchyny/vim-gitbranch'
@@ -199,7 +201,7 @@ local cmp = require'cmp'
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
     end,
   },
   mapping = {
