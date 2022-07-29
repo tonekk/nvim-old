@@ -214,6 +214,7 @@ nnoremap <leader>ff :Telescope find_files<CR>
 lua require'lspconfig'.tsserver.setup{}
 lua require'lspconfig'.solargraph.setup{}
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
