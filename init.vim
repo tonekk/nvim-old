@@ -48,7 +48,11 @@ call plug#begin('~/etc/nvim/plugged')
   Plug 'kassio/neoterm'
   Plug 'szw/vim-maximizer'
 
-  " ALE (for linting)
+  " mason - manage linters / lsp plugins
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+
+  " ALE and neoformat (for linting and prettying)
   Plug 'dense-analysis/ale'
   Plug 'sbdchd/neoformat'
 
@@ -252,3 +256,11 @@ autocmd BufWritePre *.jsx Neoformat
 
 " Shortcut to deselect search string
 nnoremap nH :nohlsearch<CR>
+
+" mason
+" TODO: Set ensure_installed for mason-lspconfig
+" see: https://github.com/williamboman/mason-lspconfig.nvim#default-configuration
+lua <<EOF
+require("mason").setup()
+require("mason-lspconfig").setup()
+EOF
