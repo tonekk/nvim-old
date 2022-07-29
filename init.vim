@@ -125,6 +125,7 @@ nmap ]y <plug>(YoinkRotateForward)
 
 " NERDtree
 nnoremap <leader>n :NERDTreeToggle<CR>
+let g:NERDTreeWinSize=60
 
 " vim-test
 nmap <silent> <leader>t :TestNearest<CR>
@@ -183,9 +184,31 @@ nnoremap <silent> <C-w>m :MaximizerToggle!<CR>
 tnoremap <C-w>m <c-\><c-n>:MaximizerToggle!<CR>i
 
 " nvim-telescope/telescope.nvim
+lua <<EOF
+changed_on_branch = function()
+  local previewers = require('telescope.previewers')                          
+  local pickers = require('telescope.pickers')                                
+  local sorters = require('telescope.sorters')                                
+  local finders = require('telescope.finders')                                
+
+  pickers.new {                                                               
+    results_title = 'Modified on current branch',                           
+    finder = finders.new_oneshot_job({'git-branch-modified', 'list'}),
+    sorter = sorters.get_fuzzy_file(),                                      
+    previewer = previewers.new_termopen_previewer {                         
+      get_command = function(entry)                                       
+      return {'git-branch-modified', 'diff', entry.value}
+      end                                                                 
+      },                                                                      
+    }:find()                                                                    
+end
+EOF
 nnoremap <leader><space> :Telescope git_files<CR>
-nnoremap <leader>b :Telescope buffers<CR>
+nnoremap <leader>g :Telescope git_status<CR>
+nnoremap <leader>b <cmd>lua changed_on_branch()<CR>
+nnoremap <leader>ab :Telescope buffers<CR>
 nnoremap <leader>ff :Telescope find_files<CR>
+
 
 " neovim/nvim-lspconfig
 lua require'lspconfig'.tsserver.setup{}
