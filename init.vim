@@ -59,6 +59,8 @@ call plug#begin('~/etc/nvim/plugged')
   " colorscheme
   Plug 'folke/tokyonight.nvim'
   Plug 'NLKNguyen/papercolor-theme'
+
+  Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " default options
